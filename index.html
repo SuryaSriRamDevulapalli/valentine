@@ -2,9 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Be My Valentine Cutie? ❤️</title>
   <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
     body {
       margin: 0;
       height: 100vh;
@@ -12,39 +17,46 @@
       justify-content: center;
       align-items: center;
       background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-      font-family: Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       overflow: hidden;
+      padding: 16px;
     }
 
     .card {
       background: white;
-      padding: 40px;
-      border-radius: 20px;
+      padding: 28px 20px 32px;
+      border-radius: 24px;
       text-align: center;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
       position: relative;
+      width: 100%;
+      max-width: 360px;
     }
 
     h1 {
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       color: #ff4d6d;
+      font-size: 24px;
+      line-height: 1.3;
     }
 
     .buttons {
       display: flex;
       justify-content: center;
-      gap: 20px;
-      margin-top: 20px;
+      gap: 14px;
+      margin-top: 10px;
       position: relative;
+      flex-wrap: wrap;
     }
 
     button {
-      padding: 12px 24px;
+      padding: 14px 22px;
       font-size: 16px;
       border: none;
       border-radius: 999px;
       cursor: pointer;
-      transition: transform 0.2s ease, background 0.2s ease;
+      transition: transform 0.15s ease, background 0.15s ease;
+      min-width: 110px;
     }
 
     #yesBtn {
@@ -52,36 +64,48 @@
       color: white;
     }
 
-    #yesBtn:hover {
-      transform: scale(1.1);
+    #yesBtn:active {
+      transform: scale(1.08);
       background: #ff3355;
     }
 
     #noBtn {
-      background: #ccc;
+      background: #e0e0e0;
       color: #333;
       position: relative;
     }
 
+    .warning {
+      margin-top: 14px;
+      font-size: 15px;
+      color: #ff3355;
+      display: none;
+      font-weight: 600;
+    }
+
     .message {
-      margin-top: 20px;
+      margin-top: 18px;
       font-size: 20px;
       color: #ff4d6d;
       display: none;
+      font-weight: 600;
     }
 
-    .warning {
-      margin-top: 15px;
-      font-size: 16px;
-      color: #ff3355;
-      display: none;
-      font-weight: bold;
+    @media (max-width: 380px) {
+      h1 {
+        font-size: 22px;
+      }
+
+      button {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
   <div class="card" id="card">
     <h1>Will you be my Valentine chubby cheeks? ❤️</h1>
+
     <div class="buttons">
       <button id="yesBtn">Yes 💖</button>
       <button id="noBtn">No 😢</button>
@@ -98,21 +122,21 @@
     const warning = document.getElementById("warning");
 
     function moveNoButton() {
-      // show warning message
       warning.style.display = "block";
 
-      // change to absolute when trying to hover
-      noBtn.style.position = "absolute";
+      noBtn.style.position = "fixed";
 
-      const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-      const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+      const padding = 20;
+      const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - padding);
+      const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - padding);
 
       noBtn.style.left = x + "px";
       noBtn.style.top = y + "px";
     }
 
+    // iPhone uses touch instead of hover
+    noBtn.addEventListener("touchstart", moveNoButton);
     noBtn.addEventListener("mouseover", moveNoButton);
-    noBtn.addEventListener("click", moveNoButton);
 
     yesBtn.addEventListener("click", () => {
       warning.style.display = "none";
@@ -122,6 +146,4 @@
     });
   </script>
 </body>
-
 </html>
-
