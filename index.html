@@ -24,7 +24,7 @@
 
     .card {
       background: white;
-      padding: 28px 20px 32px;
+      padding: 24px 18px 28px;
       border-radius: 24px;
       text-align: center;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
@@ -34,10 +34,17 @@
     }
 
     h1 {
-      margin-bottom: 18px;
+      margin-bottom: 14px;
       color: #ff4d6d;
-      font-size: 24px;
+      font-size: 22px;
       line-height: 1.3;
+    }
+
+    img {
+      width: 100%;
+      border-radius: 16px;
+      margin-bottom: 12px;
+      display: none;
     }
 
     .buttons {
@@ -76,46 +83,50 @@
     }
 
     .warning {
-      margin-top: 14px;
-      font-size: 15px;
+      margin-top: 12px;
+      font-size: 14px;
       color: #ff3355;
       display: none;
       font-weight: 600;
     }
 
     .message {
-      margin-top: 18px;
-      font-size: 20px;
+      margin-top: 16px;
+      font-size: 18px;
       color: #ff4d6d;
       display: none;
       font-weight: 600;
     }
 
     @media (max-width: 380px) {
-      h1 {
-        font-size: 22px;
-      }
-
-      button {
-        width: 100%;
-      }
+      h1 { font-size: 20px; }
+      button { width: 100%; }
     }
   </style>
 </head>
 <body>
-  <div class="card" id="card">
-    <h1>Will you be my Valentine chubby cheeks? ❤️</h1>
+  <div class="card">
 
-    <div class="buttons">
+    <h1 id="question">Will you be my Valentine chubby cheeks? ❤️</h1>
+
+    <div class="buttons" id="buttons">
       <button id="yesBtn">Yes 💖</button>
       <button id="noBtn">No 😢</button>
     </div>
 
     <div class="warning" id="warning">Only "Yes" is accepted 😌💘</div>
+
+    <!-- Final image after Yes -->
+    <img id="finalImg" src="images/modern3.jpeg" alt="Together" />
+
     <div class="message" id="message">Yay!!! I knew you'd say yes! 🥰</div>
   </div>
 
   <script>
+    const finalImg = document.getElementById("finalImg");
+
+    const buttons = document.getElementById("buttons");
+    const question = document.getElementById("question");
     const noBtn = document.getElementById("noBtn");
     const yesBtn = document.getElementById("yesBtn");
     const message = document.getElementById("message");
@@ -134,15 +145,24 @@
       noBtn.style.top = y + "px";
     }
 
-    // iPhone uses touch instead of hover
     noBtn.addEventListener("touchstart", moveNoButton);
     noBtn.addEventListener("mouseover", moveNoButton);
 
     yesBtn.addEventListener("click", () => {
       warning.style.display = "none";
+      buttons.style.display = "none";
+      question.style.display = "none";
+
+      finalImg.style.display = "block";
       message.style.display = "block";
-      yesBtn.style.display = "none";
-      noBtn.style.display = "none";
+
+      // revert back to original after 3 seconds
+      setTimeout(() => {
+        finalImg.style.display = "none";
+        message.style.display = "none";
+        buttons.style.display = "flex";
+        question.style.display = "block";
+      }, 3000);
     });
   </script>
 </body>
